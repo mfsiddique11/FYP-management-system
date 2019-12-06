@@ -1,0 +1,322 @@
+{% load static %}
+{% load humanize %}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <meta http-equiv="X-UA-Compatible" content="ie=edge">
+        <title>Document</title>
+        <link rel="stylesheet" href="{% static 'css/bootstrap.css' %}">
+        <script src="{% static 'js/bootstrap.js' %}"></script>
+        <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css"
+                integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr"
+                crossorigin="anonymous">
+
+
+        <style>
+                #divimg {
+                        height: 40px;
+                        opacity: 0.9;
+                        background-color: #F2F2F2;
+                }
+
+                .active {
+                        font-weight: bold;
+                }
+
+                .scroll {
+                        height: 200px;
+                        overflow-y: scroll;
+                }
+        </style>
+
+</head>
+
+<body>
+
+        <nav class="navbar navbar-light navbar-fixed-top" style="background-color:#283E60;height:80px"
+                role="navigation">
+
+                <div class="container">
+                        <span class="navbar-brand mb-0 h1" style="font-size:30px;color:white">Fyp <b>Tracking</b>
+                                System <i class="fas fa-plane-departure"></i></span>
+
+
+                        <div class="nav navbar-nav navbar-right">
+                                <a class="nav-link" href="javascript:{document.getElementById('logout').submit()}">
+                                        <i style="font-size:20px;color:white"
+                                                class="fas fa-sign-in-alt">&nbsp;Logout</i>
+                                </a>
+                                <form action="{% url 'logout' %}" method="post" id="logout">
+                                        {% csrf_token %}
+                                        <input type="hidden">
+                                </form>
+                        </div>
+                </div>
+        </nav>
+        <div id='divimg'>
+                <!-- <h1 style="padding-top:50px;text-align:center">Student Dashboard</h1> -->
+                <div class="container pt-0 pb-0">
+                        <div class="row">
+                                <!-- <div class="col-md-3"></div> -->
+                                <div class="col-md-6">
+                                        <nav class="navbar navbar-expand-lg">
+                                                <button class="navbar-toggler" type="button" data-toggle="collapse"
+                                                        data-target="#navbarNav" aria-controls="navbarNav"
+                                                        aria-expanded="false" aria-label="Toggle navigation">
+                                                        <span class="navbar-toggler-icon"></span>
+                                                </button>
+                                                <div class="collapse navbar-collapse" id="navbarNav">
+                                                        <ul class="navbar-nav">
+                                                                <li class="nav-item active">
+                                                                        <a class="pt-0 pb-0 nav-link border-right border-dark"
+                                                                                href="stddashboard">Home
+                                                                        </a>
+                                                                </li>
+                                                                <li class="nav-item">
+                                                                        <a class="pt-0 pb-0 nav-link border-right border-dark"
+                                                                                href="stdprojectform">
+                                                                                Create&nbsp;Project <span
+                                                                                        class="sr-only">(current)</span>
+                                                                        </a>
+                                                                </li>
+                                                                <li class="nav-item">
+
+                                                                        <a class="pt-0 pb-0 nav-link border-right border-dark"
+                                                                                href="stdnotification">Invitations
+                                                                                {% if error%}
+                                                                                <span
+                                                                                        class="badge badge-success">New</span>
+                                                                                {% endif %}</a>
+
+                                                                </li>
+                                                                <li class="nav-item">
+                                                                        <a class="pt-0 pb-0 nav-link border-right border-dark"
+                                                                                href="stduploadfile">Upload&nbsp;Files</a>
+                                                                </li>
+                                                                <li class="nav-item">
+                                                                        <a class="pt-0 pb-0 nav-link border-right border-dark"
+                                                                                href="stdchangepassword">Change&nbsp;Password</a>
+                                                                </li>
+                                                        </ul>
+                                                </div>
+                                        </nav>
+
+                                </div>
+                                <div class="col-md-3"></div>
+                        </div>
+
+
+
+                </div>
+        </div>
+
+
+
+
+        <div class="container py-5">
+                <div class="row">
+
+                        <div class="container py-3" style="background-color:#F3F3F3">
+
+
+
+                                <div class="container">
+                                        <h1 style="padding-top:50px;text-align:center">Student Dashboard</h1>
+
+                                        <div class="row">
+                                                <div class="col-sm-8">
+                                                        <div class="container">
+
+
+                                                                <div class="card">
+                                                                        <div class="card-header">
+                                                                                <h1>{{ projecttitle }}</h1>
+                                                                        </div>
+                                                                        <div class="card-body">
+                                                                                <h5 class="card-title">Discriptions</h5>
+                                                                                <p>{{ projectdescription }}
+
+                                                                                        {% if documents %}
+                                                                                        <h5 class="card-title">Documents
+                                                                                        </h5>
+                                                                                        <ul>
+
+                                                                                                {% for docloc,doc,statuses,reviews,date in documents %}
+                                                                                                <li>
+                                                                                                        <table>
+                                                                                                                <tr>
+                                                                                                                        <td><a href="/media/{{ docloc }}">{{ doc }} &nbsp; {{ date|date:"D-d-M-y" }}</a>
+                                                                                                                        </td>
+                                                                                                                        <td>&nbsp;&nbsp;&nbsp;
+                                                                                                                        </td>
+                                                                                                                        <td>
+                                                                                                                                 {% if statuses == False %}
+                                                                                                                                 <p class="alert alert-danger"> Rejected </p>
+                                                                                                                                 {% elif statuses == True %}
+                                                                                                                                 <p class="alert alert-success"> Approved </p>
+                                                                                                                                 {% elif statuses == None %}
+                                                                                                                                 <p class="alert alert-success"> Pending </p>
+
+                                                                                                                                {% endif %}
+
+                                                                                                                        </td>
+                                                                                                                        <td>
+                                                                                                                                <p class="alert alert-success"> {{ reviews }}</p>
+                                                                                                                               
+                                                                                                                                
+                                                                                                                                </td>
+                                                                                                                        <td>
+                                                                                                                                <form 
+                                                                                                                                        action="{% url 'stdfiledelete' %}"
+                                                                                                                                        method="post">
+                                                                                                                                        {% csrf_token %}
+                                                                                                                                        <input type="hidden" name="docname" value="{{ docloc }}">
+                                                                                                                                        <input type="submit"
+                                                                                                                                                value="x"
+                                                                                                                                                class="btn btn-danger">
+                                                                                                                                </form>
+                                                                                                                        </td>
+                                                                                                                </tr>
+                                                                                                        </table>
+
+
+
+
+                                                                                                </li>
+
+
+                                                                                                {% endfor %}
+                                                                                        </ul>
+                                                                                        {% endif %}
+                                                                                        <!-- {% if documents %}
+                                                                                       
+                                                                                        <ul>
+
+                                                                                                {% for docloc,doc in documents %}
+                                                                                                <li><a href="/media/{{ docloc }}">{{ doc }}</a>
+                                                                                                       
+                                                                                                        </li>
+
+
+                                                                                                {% endfor %}
+                                                                                                <li>sdasd</li>
+                                                                                        </ul>
+                                                                                        {% endif %} -->
+
+
+                                                                                        {% if devs %}
+
+                                                                                        <h5 class="card-title">Team
+                                                                                                Members</h5>
+
+
+                                                                                        {% for dev in devs %}
+                                                                                        <div class="ml-3">
+                                                                                                <p>{{ dev }}</p>
+                                                                                        </div>
+                                                                                        {% endfor %}
+
+                                                                                        {%endif%}
+
+
+
+
+                                                                                        {% if supervisor %}
+                                                                                        <h5 class="card-title">
+                                                                                                Supervisor</h5>
+                                                                                        <div class="ml-3">
+                                                                                                {{ supervisor }}
+                                                                                        </div>
+                                                                                        {%endif%}
+                                                                                        <hr>
+                                                                                        {% if projectcreated %}
+                                                                                        <em>Started
+                                                                                                At:&nbsp;{{ projectcreated }}</em>
+                                                                                        {%endif%}
+                                                                                        <!-- <p class="card-text">With supporting text below as a natural lead-in to additional content.</p> -->
+                                                                                        <!-- <a href="#" class="btn btn-primary">Go somewhere</a> -->
+                                                                        </div>
+                                                                </div>
+                                                        </div>
+
+
+                                                </div>
+
+
+
+
+
+
+
+                                                <div class="col-sm-4">
+                                                        <div style="text-align: center">
+                                                                {% if error%}
+                                                                <p class="alert alert-danger">{{ error }}</p>
+                                                                {% endif %}
+                                                                {% if calendar %}
+                                                                <div class="scroll">
+                                                                        <h3>Project cordinator Notifications!</h3>
+                                                                        {%for cdesc,cdat in calendar%}
+                                                                        <div class="alert alert-success" role="alert">
+                                                                                <h4 class="alert-heading">{{ cdat}}</h4>
+                                                                                <p>{{ cdesc }}</p>
+                                                                                <hr>
+                                                                                <!-- <p class="mb-0">Whenever you need to, be sure to use margin utilities to keep things nice and tidy.</p> -->
+                                                                        </div>
+                                                                        {%endfor%}
+                                                                        {%endif%}
+                                                                </div>
+                                                                <hr>
+
+                                                                {% if meeting %}
+                                                                <div class="scroll">
+
+                                                                        <h3>Supervisor Notifications!</h3>
+                                                                        {%for mdesc,mdat in meeting%}
+                                                                        <div class="alert alert-success" role="alert">
+                                                                                <h4 class="alert-heading">{{ mdat}}</h4>
+                                                                                <p>{{ mdesc }}</p>
+                                                                                <hr>
+                                                                                <!-- <p class="mb-0">Whenever you need to, be sure to use margin utilities to keep things nice and tidy.</p> -->
+                                                                        </div>
+                                                                        {%endfor%}
+
+                                                                        <table class="table table-striped">
+
+
+                                                                                <tbody>
+
+                                                                                        <!-- <tr style='background-color:cornflowerblue'>
+                                                                                        <td>{{ mdat}}</td>
+                                                                                </tr> -->
+
+                                                                                </tbody>
+                                                                        </table>
+                                                                </div>
+                                                                {%endif%}
+                                                        </div>
+
+                                                </div>
+                                        </div>
+                                </div>
+
+
+                        </div>
+                </div>
+
+        </div>
+        </div>
+        <footer class="py-4 text-white text-center" style="background-color:#283E60">
+                Copyright &copy;
+                <span class="year" style="padding-bottom:20px"></span> fyp
+        </footer>
+
+
+
+
+</body>
+
+</html>

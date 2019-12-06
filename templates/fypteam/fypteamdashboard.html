@@ -1,0 +1,133 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <meta http-equiv="X-UA-Compatible" content="ie=edge">
+        <title>Document</title>
+        <link rel="stylesheet" href="{% static 'css/bootstrap.css' %}">
+        <link rel="stylesheet" href="{% static 'js/bootstrap.js' %}">
+        <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css" integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr"
+                crossorigin="anonymous">
+
+
+
+        <style>
+                #divimg{
+                height:200px;
+                opacity: 0.9;
+                background-color:#F2F2F2;
+                
+        }
+</style>
+
+</head>
+
+<body>
+        <nav class="navbar navbar-light navbar-fixed-top" style="background-color:#283E60;height:80px" role="navigation">
+
+                <div class="container">
+                        <span class="navbar-brand mb-0 h1" style="font-size:30px;color:white">Fyp <b>Tracking</b>
+                                System <i class="fas fa-plane-departure"></i></span>
+
+                        <div class="nav navbar-nav navbar-right">
+                                <a class="nav-link" href="javascript:{document.getElementById('logout').submit()}">
+                                        <i style="font-size:20px;color:white" class="fas fa-sign-in-alt">&nbsp;Logout</i>
+                                </a>
+                                <form action="{% url 'logout' %}" method="post" id="logout">
+                                        {% csrf_token %}
+                                        <input type="hidden">
+                                </form>
+                        </div>
+                </div>
+        </nav>
+        <div id='divimg'>
+                <h1 style="padding-top:50px;text-align:center">Fyp Team Dashboard</h1>
+                <div class="container py-3">
+                        <div class="row">
+                                <div class="col-md-4"></div>
+                                <div class="col-md-4" style="padding-left:120px">
+                                        <nav class="navbar navbar-expand-lg">
+                                                <button class="navbar-toggler" type="button" data-toggle="collapse"
+                                                        data-target="#navbarNav" aria-controls="navbarNav"
+                                                        aria-expanded="false" aria-label="Toggle navigation">
+                                                        <span class="navbar-toggler-icon"></span>
+                                                </button>
+                                                <div class="collapse navbar-collapse" id="navbarNav">
+                                                        
+                                                </div>
+                                        </nav>
+
+                                </div>
+                                <div class="col-md-4"></div>
+                        </div>
+
+
+
+                </div>
+        </div>
+
+
+
+
+        <div class="container py-3">
+                <div class="row">
+                        <div class="container py-3">
+                                <div class="row">
+                                        <div class="col-md-2"></div>
+                                        <div class="col-md-8">
+                                                <table class="table table-striped">
+                                                        <thead>
+                                                                <tr>
+                                                                        <th>Project Title</th>
+                                                                        <th style="text-align:right"></th>
+                                                                </tr>
+                                                        </thead>
+                                                        {% for projecttitle in projecttitles %}
+                                                        <tbody>
+                                                                <tr>
+                                                                        <form action="{% url 'fypteamprojectdetail' %}"
+                                                                                method="post">
+                                                                                {% csrf_token %}
+                                                                                <td>
+
+
+                                                                                        {{ projecttitle }}
+
+
+
+                                                                                </td>
+                                                                                <td style="text-align:right">
+                                                                                        <input type="hidden" name="title"
+                                                                                                value="{{ projecttitle }}">
+                                                                                        <input type="submit" name="submit"
+                                                                                                value="View" class="btn btn-primary">
+                                                                                </td>
+                                                                        </form>
+                                                                </tr>
+
+                                                        </tbody>
+                                                        {% endfor %}
+
+
+                                                </table>
+
+                                        </div>
+                                        <div class="col-md-2"></div>
+                                </div>
+
+                        </div>
+
+                </div>
+        </div>
+
+        <footer class="py-4 text-white text-center" style="background-color:#283E60 ;margin-top:300px">
+                Copyright &copy;
+                <span class="year" style="padding-bottom:20px"></span> fyp
+        </footer>
+
+</body>
+
+</html>

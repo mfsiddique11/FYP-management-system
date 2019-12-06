@@ -1,0 +1,144 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <meta http-equiv="X-UA-Compatible" content="ie=edge">
+        <title>Document</title>
+        <link rel="stylesheet" href="{% static 'css/bootstrap.css' %}">
+        <link rel="stylesheet" href="{% static 'js/bootstrap.js' %}">
+        <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css" integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr"
+                crossorigin="anonymous">
+
+
+        <style>
+                #divimg{
+                height:200px;
+                opacity: 0.9;
+                background-color:#F2F2F2;
+                
+        }
+</style>
+
+</head>
+
+<body>
+
+        <nav class="navbar navbar-light navbar-fixed-top" style="background-color:#283E60;height:80px" role="navigation">
+
+                <div class="container">
+                        <span class="navbar-brand mb-0 h1" style="font-size:30px;color:white">Fyp <b>Tracking</b>
+                                System <i class="fas fa-plane-departure"></i></span>
+
+
+                        <div class="nav navbar-nav navbar-right">
+                                <a class="nav-link" href="javascript:{document.getElementById('logout').submit()}">
+                                        <i style="font-size:20px;color:white" class="fas fa-sign-in-alt">&nbsp;Logout</i>
+                                </a>
+                                <form action="{% url 'logout' %}" method="post" id="logout">
+                                        {% csrf_token %}
+                                        <input type="hidden">
+                                </form>
+                        </div>
+                </div>
+        </nav>
+        <div id='divimg'>
+                <h1 style="padding-top:50px;text-align:center">FypCoordinator Dashboard</h1>
+                <div class="container py-3">
+                        <div class="row">
+                                <div class="col-md-4"></div>
+                                <div class="col-md-4">
+                                        <nav class="navbar navbar-expand-lg">
+                                                <button class="navbar-toggler" type="button" data-toggle="collapse"
+                                                        data-target="#navbarNav" aria-controls="navbarNav"
+                                                        aria-expanded="false" aria-label="Toggle navigation">
+                                                        <span class="navbar-toggler-icon"></span>
+                                                </button>
+                                                <div class="collapse navbar-collapse" id="navbarNav">
+                                                        <ul class="navbar-nav">
+                                                               
+                                                                <li class="nav-item active">
+                                                                        <a class="pt-0 pb-0 nav-link border-right border-dark"
+                                                                                href="fypcoordinatordashboard">Home
+                                                                        </a>
+                                                                </li>  
+                                                                <li class="nav-item">
+                                                                        <a class="pt-0 pb-0 nav-link border-right border-dark"
+                                                                                href="fypcoordinatorchangepassword">Change&nbsp;Password</a>
+                                                                </li>
+                                                                <li class="nav-item">
+                                                                        <a class="pt-0 pb-0 nav-link border-right border-dark"
+                                                                                href="fypcoordinatoreventlist">Event&nbsp;List</a>
+                                                                </li>
+
+                                                        </ul>
+                                                </div>
+                                        </nav>
+
+                                </div>
+                                <div class="col-md-4"></div>
+                        </div>
+
+
+
+                </div>
+        </div>
+
+
+
+        <div class="container py-3">
+                <div class="row">
+                        <div class="container py-3">
+                                        {%if error %}
+                                        <p class="alert alert-danger">{{ error }}</p>
+                                        {%endif%}
+                                        {%if success %}
+                                        <p class="alert alert-danger">{{ success }}</p>
+                                        {%endif%}
+                                        <div class="card">
+                                                        <div class="card-header text-white" style="background-color:#10284E">
+                                                                <h4>
+                                                                        <i class="fab fa-wpforms"></i> Add Events</h4>
+                                                        </div>
+                                                        <div class="card-body">
+                                                                <form action="{% url 'fypcoordinatordashboard' %}" method="post" enctype="multipart/form-data">
+                                                                        {% csrf_token %}
+                                                                        
+                                                                        <div class="form-group">
+                                                                                        <label for="description"><b>Description:</b></label>
+                                                                                        <textarea name="description" rows="4" cols="50" class="form-control"
+                                                                                                required>{{ desc }}
+                                                                                               </textarea>
+                                                                                </div>
+
+                                                                                <label for="semester"><b>Semester:</b></label>
+                                                                                <select name="semester" class="form-control" required>
+                                                                                     
+                                                                                        <option value='0'>All Semesters</option>
+                                                                                        <option value='7'>7th Semester</option>
+                                                                                        <option value='8'>8th Semester</option>
+                                                                                </select>
+
+                                                                                <div class="form-group">
+                                                                                        <label for="date"><b>Date</b></label>
+                                                                                        <input type="date" name="date" class="form-control" required>
+                                                                                </div>
+                                                                        <input type="submit" value="Set Event" class="btn btn-primary btn-block">
+                                                                </form>
+                                                        </div>
+                                                </div>
+                        </div>
+
+                </div>
+        </div>
+
+        <footer class="py-4 text-white text-center" style="background-color:#283E60">
+                Copyright &copy;
+                <span class="year" style="padding-bottom:20px"></span> fyp
+        </footer>
+
+</body>
+
+</html>

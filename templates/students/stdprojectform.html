@@ -1,0 +1,257 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <meta http-equiv="X-UA-Compatible" content="ie=edge">
+        <title>Document</title>
+        <link rel="stylesheet" href="{% static 'css/bootstrap.css' %}">
+        <link rel="stylesheet" href="{% static 'js/bootstrap.js' %}">
+
+        <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css"
+                integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr"
+                crossorigin="anonymous">
+
+
+        <style>
+                #divimg {
+                        height: 40px;
+                        opacity: 0.9;
+                        background-color: #F2F2F2;
+
+                }
+
+                .active {
+                        font-weight: bold;
+                }
+        </style>
+
+</head>
+
+<body>
+
+        <nav class="navbar navbar-light navbar-fixed-top" style="background-color:#283E60;height:80px"
+                role="navigation">
+
+                <div class="container">
+                        <span class="navbar-brand mb-0 h1" style="font-size:30px;color:white">Fyp <b>Tracking</b>
+                                System <i class="fas fa-plane-departure"></i></span>
+
+
+                        <div class="nav navbar-nav navbar-right">
+                                <a class="nav-link" href="javascript:{document.getElementById('logout').submit()}">
+                                        <i style="font-size:20px;color:white"
+                                                class="fas fa-sign-in-alt">&nbsp;Logout</i>
+                                </a>
+                                <form action="{% url 'logout' %}" method="post" id="logout">
+                                        {% csrf_token %}
+                                        <input type="hidden">
+                                </form>
+                        </div>
+                </div>
+        </nav>
+        <div id='divimg'>
+                <!-- <h1 style="padding-top:50px;text-align:center">Student Dashboard</h1> -->
+                <div class="container pt-0 pb-0">
+                        <div class="row">
+                                <!-- <div class="col-md-3"></div> -->
+                                <div class="col-md-6">
+                                        <nav class="navbar navbar-expand-lg">
+                                                <button class="navbar-toggler" type="button" data-toggle="collapse"
+                                                        data-target="#navbarNav" aria-controls="navbarNav"
+                                                        aria-expanded="false" aria-label="Toggle navigation">
+                                                        <span class="navbar-toggler-icon"></span>
+                                                </button>
+                                                <div class="collapse navbar-collapse" id="navbarNav">
+                                                        <ul class="navbar-nav">
+                                                                <li class="nav-item">
+                                                                        <a class="pt-0 pb-0 nav-link border-right border-dark"
+                                                                                href="stddashboard">Home
+                                                                        </a>
+                                                                </li>
+                                                                <li class="nav-item active">
+                                                                                <a class="pt-0 pb-0 nav-link border-right border-dark"
+                                                                                        href="stdprojectform">
+                                                                                        Create&nbsp;Project <span
+                                                                                                class="sr-only">(current)</span>
+                                                                                </a>
+                                                                        </li>
+                                                                        <li class="nav-item ">
+                                                                                <a class="pt-0 pb-0 nav-link border-right border-dark"
+                                                                                        href="stdnotification">Invitations</a>
+                                                                        </li>
+                                                                <li class="nav-item">
+                                                                        <a class="pt-0 pb-0 nav-link border-right border-dark"
+                                                                                href="stduploadfile">Upload&nbsp;Files</a>
+                                                                </li>
+                                                                <li class="nav-item">
+                                                                        <a class="pt-0 pb-0 nav-link border-right border-dark"
+                                                                                href="stdchangepassword">Change&nbsp;Password</a>
+                                                                </li>
+                                                        </ul>
+                                                </div>
+                                        </nav>
+
+                                </div>
+                                <div class="col-md-3"></div>
+                        </div>
+
+
+
+                </div>
+        </div>
+
+
+
+        <div class="container py-3">
+                <div class="row">
+                        <div class="container py-3">
+                                {%if error %}
+                                <p class="alert alert-danger">{{ error }}</p>
+                                {%endif%}
+                                {%if success %}
+                                <p class="alert alert-danger">{{ success }}</p>
+                                {%endif%}
+                                <div class="card container">
+                                        <div class="card-header text-white" style="background-color:#10284E">
+                                                <h4>
+                                                        <i class="fab fa-wpforms"></i> Project Form</h4>
+                                        </div>
+                                        <div class="card-body">
+                                                <form class=" row" action="{% url 'stdprojectform' %}" method="post">
+                                                        {% csrf_token %}
+                                                        <div class="form-group col-sm-6">
+                                                                <label for="title"><b>Title:</b></label>
+                                                                <input type="text" name="title" class="form-control"
+                                                                        required>
+                                                        </div>
+                                                       
+
+                                                        <div class="form-group col-sm-6">
+                                                                <label for="supervisor"><b>Supervisor:</b></label>
+                                                                <select name="supervisor" class="form-control" required>
+                                                                        {% for supervisor in supervisors %}
+                                                                        <option value='{{ supervisor }}'>
+                                                                                {{ supervisor }}</option>
+                                                                        {% endfor %}
+                                                                </select>
+                                                        </div>
+                                                        <div class="form-group col-sm-6">
+                                                                        <label for="description"><b>Description:</b></label>
+                                                                        <textarea name="description"  rows="4" cols="50"
+                                                                                class="form-control" required></textarea>
+                                                                              
+                                                                </div>
+                                                        <!--
+                                                        <div class="form-group">
+                                                                <label for="member1"><b>Member 1:</b></label>
+                                                                <select name="member1" class="form-control" required>
+                                                                        <option value='none'>none</option>
+                                                                        {% for student in students %}
+                                                                        <option value='{{ student }}'>{{ student }}
+                                                                        </option>
+                                                                        {% endfor %}
+                                                                </select>
+                                                        </div>
+                                                        <div class="form-group">
+                                                                <label for="member2"><b>Member 2:</b></label>
+                                                                <select name="member2" class="form-control" required>
+                                                                        <option value='none'>none</option>
+                                                                        {% for student in students %}
+                                                                        <option value='{{ student }}'>{{ student }}
+                                                                        </option>
+                                                                        {% endfor %}
+                                                                </select>
+                                                        </div>
+                                                        
+                                                        <div class="form-group">
+                                                                <label for="member3"><b>Member 3:</b></label>
+                                                                <select name="member3" class="form-control" required>
+                                                                        <option value='none'>none</option>
+                                                                        {% for student in students %}
+                                                                        <option value='{{ student }}'>{{ student }}
+                                                                        </option>
+                                                                        {% endfor %}
+                                                                </select>
+                                                        </div> -->
+                                                        <div class="cont form-group col-sm-6">
+                                                                <button class="add_form btn btn-success">Add member to your group&nbsp; <span
+                                                                                style="font-size:16px; font-weight:bold;">+
+                                                                        </span></button>
+                                                                <div>
+                                                                        <!-- <label for="member1"><b>Member 1:</b></label>
+
+                                                                        <select name="member1" class="form-control"
+                                                                                required>
+                                                                                <option value='none'>none</option>
+                                                                                {% for student in students %}
+                                                                                <option value='{{ student }}'>
+                                                                                        {{ student }}
+                                                                                </option>
+                                                                                {% endfor %}
+                                                                        </select> -->
+                                                                </div>
+                                                        </div>
+                                                        <!-- <div class="form-group">
+                                                                        <label for="type"><b>Select file type:</b></label>
+                                                                        <select name="type" class="form-control" >
+                                                                                        {% for doc in docs %}
+                                                                                        <option value='{{ doc }}'>{{ doc }}</option>
+                                                                                        {% endfor %}
+                                                                        </select>
+                                                                </div>
+                                                                <div class="form-group">
+                                                                                <input type="file" name="file" id="fileToUpload" required>
+                                                                        </div> -->
+
+                                                        <input type="submit" value="Submit Form"
+                                                                class="btn btn-primary btn-block">
+                                                </form>
+                                        </div>
+                                </div>
+                        </div>
+
+                </div>
+        </div>
+
+        <footer class="py-4 text-white text-center" style="background-color:#283E60">
+                Copyright &copy;
+                <span class="year" style="padding-bottom:20px"></span> fyp
+        </footer>
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script>
+        <script>
+                $(document).ready(function () {
+                        //setting max limit
+                        var max_fields = 3;
+                        var wrapper = $(".cont");
+                        var add_button = $(".add_form");
+                        var memberNum = 1;
+                        var x = 0;
+                        $(add_button).click(function (e) {
+                                e.preventDefault();
+                                if (x < max_fields) {
+                                        x++;
+                                        $(wrapper).append(`<label for="member`+memberNum+`"><b>Member ` + memberNum + `:</b></label>
+<select name="member`+ memberNum + `" class="form-control" required> <option value='none'>none</option>
+                                                                        {% for student in students %}
+                                                                        <option value='{{ student }}'>{{ student }}
+                                                                        </option>
+                                                                        {% endfor %}
+                                                                </select>`); //add input box
+                                        memberNum++;
+                                }
+                                else {
+                                        alert('You can maximum 3 member to your group')
+                                }
+                        });
+
+                        $(wrapper).on("click", ".delete", function (e) {
+                                e.preventDefault(); $(this).parent('div').remove(); x--;
+                        })
+                });
+        </script>
+</body>
+
+</html>
